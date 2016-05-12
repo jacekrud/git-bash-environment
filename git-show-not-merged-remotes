@@ -1,0 +1,52 @@
+#!/bin/sh
+
+function find_merge(){
+	git log --date=short --pretty='%P %H %cd'  $1 ^$2 --ancestry_path | tail -1
+}
+
+function format_short_sha1() {
+	cat $1 | cut -c 1-7;
+}
+
+function branch_sha1() {
+	git rev-parse $1 | format_short_sha1;
+}
+	
+function first_commit() {
+	git log --oneline master..$1 | tail -1 | format_short_sha1;
+}
+
+function list_not_deleted_not_merged_remotes() { 
+	#trap 'break 2' INT
+	git branch -r | grep $1 | 
+	while read -r branch; do 
+		test $? -gt 0 && break 2;
+		notMergedCommitsCount=$(git rev-list --count master..$branch); 
+		test $? -gt 0 && break 2;
+		if [ $notMergedCommitsCount -gt 0 ]; 
+		then 
+			echo $branch; 
+		fi; 
+	done; 
+}
+
+function print_remotes(){
+	echo -ne '\033[1;36mFirst   Last    Date       Autor\033[21CRemote branch\033[0m \n'; 
+	trap 'exit' INT
+	list_not_deleted_not_merged_remotes $1 | 
+	while read -r remote; do 
+		test $? -gt 0 && break;
+		firstCommit=$(first_commit $remote); 
+		test $? -gt 0 && break;
+		lastCommit=$(branch_sha1 $remote); 
+		test $? -gt 0 && break;
+		lastCommitDate=$(git show --date=short -s --pretty=format:%cd $lastCommit); 
+		test $? -gt 0 && break;
+		author=$(git show -s --format='%an' $firstCommit); 
+		test $? -gt 0 && break;
+		echo -ne $firstCommit $lastCommit $lastCommitDate'\033[1;31m' $author '\033[0m' '\r\033[41C' $remote'\n';  
+		test $? -gt 0 && break;
+	done; 
+}
+
+print_remotes team_alfa

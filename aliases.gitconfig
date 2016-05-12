@@ -1,0 +1,30 @@
+[alias]
+	sb = "!f() {  start cmd //c \"$(pwd)//Tools//Scripts//SilentBuild.bat\";}; f"
+	srb = "!f() { start cmd //c \"$(pwd)//Tools//Scripts//SilentRebuild.bat\";}; f"
+	sfb = "!f() { start cmd //c \"$(pwd)//Tools//Scripts//SilentFastBuild.bat\";}; f"
+	
+	f = "!f() { git fetch origin; git behind;}; f"
+	s = status
+	cam = commit --amend
+	rh = reset --hard
+	rbc = rebase --continue
+	rba = rebase --abort
+	mt = mergetool
+	h = config --global --edit
+	cpc = git cherry-pick --continue
+	cpa = cherry-pick --abort
+	
+	ahead = !git --no-pager log --pretty=oneline @{u}..HEAD
+	behind = "!f() { echo -n \"You are: \"; git rev-list ..@{u} --count --pretty=oneline | tr -d \"\\n\"; echo \" commits behind\"; git log --pretty=oneline -10 ..@{u};}; f"
+	
+	ch = checkout
+	chm = checkout master
+	
+	graph-n = !sh -c \"git log -$1 --date=short --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset)%C(bold yellow)%d%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset) %C(bold green)(%ar) %C(reset)%C(bold cyan)%aD%C(reset)' $2 \" -
+	g = !sh -c \"git graph-n 10\" -
+
+	commit-hash = !sh -c \"git rev-parse HEAD | cut -c0-7\"
+	rebase-interactive = '!sh -c \"echo 'a'; git rebase -i HEAD~$1\" -'
+	r = rebase -p
+	rebase-interactive = !sh -c \"git rebase -i HEAD~$1\" -
+	ri = !sh -c \"git rebase-interactive $1\" -

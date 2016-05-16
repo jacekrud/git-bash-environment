@@ -3,16 +3,18 @@
 	srb = "!f() { start cmd //c \"$(pwd)//Tools//Scripts//SilentRebuild.bat\";}; f"
 	sfb = "!f() { start cmd //c \"$(pwd)//Tools//Scripts//SilentFastBuild.bat\";}; f"
 	
-	f = "!f() { git fetch origin; git behind;}; f"
+	f = fetch origin
 	s = status
 	cam = commit --amend
 	rh = reset --hard
 	rbc = rebase --continue
 	rba = rebase --abort
 	mt = mergetool
-	h = config --global --edit
-	cpc = git cherry-pick --continue
+	edit-global-config = config --global --edit
+	cpc = cherry-pick --continue
 	cpa = cherry-pick --abort
+	
+	aa = add --all
 	
 	ahead = !git --no-pager log --pretty=oneline @{u}..HEAD
 	behind = "!f() { echo -n \"You are: \"; git rev-list ..@{u} --count --pretty=oneline | tr -d \"\\n\"; echo \" commits behind\"; git log --pretty=oneline -10 ..@{u};}; f"

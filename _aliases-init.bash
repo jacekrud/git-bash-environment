@@ -4,10 +4,10 @@ echo 'Add g as git alias'
 alias g='git'
 complete -o default -o nospace -F _git g
 
+echo 'Add notepad alias'
 if [[ -e /c/Program\ Files\ \(x86\)/Notepad++/notepad++.exe ]]
 then	
-	alias notepad2='/c/Program\ Files\ \(x86\)/Notepad++/notepad++.exe -multiInst -notabbar -nosession -noPlugin'
-	echo 'Notepad++ alias registered'
+	alias notepad='/c/Program\ Files\ \(x86\)/Notepad++/notepad++.exe -multiInst -notabbar -nosession -noPlugin'
 fi
 
 echo 'Include aliases from aliases.gitconfig'

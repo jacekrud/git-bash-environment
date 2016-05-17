@@ -17,6 +17,7 @@
 	rpo = remote prune origin
 	
 	aa = add --all
+	cm = "!f() { commit -m \""$@"\";}; f"
 	
 	ahead = !git --no-pager log --pretty=oneline @{u}..HEAD
 	behind = "!f() { echo -n \"You are: \"; git rev-list ..@{u} --count --pretty=oneline | tr -d \"\\n\"; echo \" commits behind\"; git log --pretty=oneline -10 ..@{u};}; f"
@@ -28,7 +29,11 @@
 	g = !sh -c \"git graph-n 10\" -
 
 	commit-hash = !sh -c \"git rev-parse HEAD | cut -c0-7\"
-	rebase-interactive = '!sh -c \"echo 'a'; git rebase -i HEAD~$1\" -'
+	rebase-interactive = '!sh -c \"git rebase -i HEAD~$1\" -'
 	r = rebase -p
 	rebase-interactive = !sh -c \"git rebase -i HEAD~$1\" -
 	ri = !sh -c \"git rebase-interactive $1\" -
+	
+	show-stage = diff --cached
+	show-working = diff
+	show-all = diff HEAD

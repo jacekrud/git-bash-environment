@@ -13,6 +13,7 @@
 	edit-global-config = config --global --edit
 	cpc = cherry-pick --continue
 	cpa = cherry-pick --abort
+	rpo = remote prune origin
 	
 	aa = add --all
 	

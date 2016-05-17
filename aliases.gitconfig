@@ -3,6 +3,7 @@
 	srb = "!f() { start cmd //c \"$(pwd)//Tools//Scripts//SilentRebuild.bat\";}; f"
 	sfb = "!f() { start cmd //c \"$(pwd)//Tools//Scripts//SilentFastBuild.bat\";}; f"
 	
+	p = push
 	f = fetch origin
 	s = status
 	cam = commit --amend

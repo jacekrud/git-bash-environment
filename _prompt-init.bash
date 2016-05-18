@@ -47,18 +47,20 @@ function countFilesStatuses {
 	u=$([ $u -gt 0 ] && echo "$u+ " || echo "")
 	uModified=$([ $uModified -gt 0 ] && echo "$uModified✎ " || echo "")
 	uDeleted=$([ $uDeleted -gt 0 ] && echo "$uDeleted- " || echo "")
+	unkown=$([ $unkown -gt 1 ] && echo "$unkown " || echo "")
 	
 	local staged="$sAdded$sDeleted$sModified$sRenamed"
 	local unStaged="$u$uModified$uDeleted"
 	
 	staged=$([ ! -z $staged  ] && echo "[ $staged] " || echo "")
 	unStaged=$([ ! -z $unStaged  ] && echo "[ $unStaged]" || echo "")
+	unknown=$([ ! -z $unkown  ] && echo " $unkown?!" || echo "")
 	
-	echo -e "$COLOR_DARKGREEN$staged$COLOR_DARKGREY$unStaged$COLOR_RESET"
+	echo -e "$COLOR_DARKGREEN$staged$COLOR_DARKGREY$unStaged$COLOR_RESET$unknown"
 }
 
 function git_colored_status {
-  local shortStatus="$(git status -bs 2>/dev/null)"
+  local shortStatus="$(git status -bs -u 2>/dev/null)"
   if [[ $RETVAL -ne 0 ]]
   then
 	return;
@@ -81,5 +83,5 @@ function git_colored_status {
   
 }
 
-export PS1="\[\033[1;40;30m[\t]\[\033[0m\] \[$COLOR_YELLOW\]\\w\$(git_colored_status) $(echo -e "\n$") "
+export PS1="\r\n\[\033[1;40;30m[\t]\[\033[0m\] \[$COLOR_YELLOW\]\\w\$(git_colored_status) $(echo -e "\n$") "
 export PROMPT_COMMAND='history -a'

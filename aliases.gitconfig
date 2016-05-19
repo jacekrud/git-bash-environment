@@ -37,3 +37,6 @@
 	show-stage = diff --cached
 	show-working = diff
 	show-all = diff HEAD
+	
+	#Git Extensions
+	ex-commit = ext commit

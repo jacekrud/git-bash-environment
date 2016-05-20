@@ -36,17 +36,26 @@ function countFilesStatuses {
 		" D") uDeleted=$((uDeleted+1));;
 		"RD") uDeleted=$((uDeleted+1));;
 		" M") uModified=$((uModified+1));;
+		"AM") 
+			sAdded=$((sAdded+1));
+			uModified=$((uModified+1));;
+		"MM") 
+			sModified=$((sModified+1));
+			uModified=$((uModified+1));;
+		"AD") 
+			sAdded=$((sAdded+1));
+			uDeleted=$((uDeleted+1));;
 		*) unkown=$((unkown+1));;
 		esac
 	done <<< "$(echo "${1}" | cut -c -2 | sed 1d)";
 	
-	sDeleted=$([ $sDeleted -gt 0 ] && echo "$sDeleted- " || echo "")
-	sRenamed=$([ $sRenamed -gt 0 ] && echo "$sRenamed» " || echo "")
+	sDeleted=$([ $sDeleted -gt 0 ] && echo "$sDeleted✘ " || echo "")
+	sRenamed=$([ $sRenamed -gt 0 ] && echo "$sRenamed➚ " || echo "")
 	sModified=$([ $sModified -gt 0 ] && echo "$sModified✎ " || echo "")
-	sAdded=$([ $sAdded -gt 0 ] && echo "$sAdded+ " || echo "")
-	u=$([ $u -gt 0 ] && echo "$u+ " || echo "")
+	sAdded=$([ $sAdded -gt 0 ] && echo "$sAdded✚ " || echo "")
+	u=$([ $u -gt 0 ] && echo "$u✚ " || echo "")
 	uModified=$([ $uModified -gt 0 ] && echo "$uModified✎ " || echo "")
-	uDeleted=$([ $uDeleted -gt 0 ] && echo "$uDeleted- " || echo "")
+	uDeleted=$([ $uDeleted -gt 0 ] && echo "$uDeleted✘ " || echo "")
 	unkown=$([ $unkown -gt 1 ] && echo "$unkown " || echo "")
 	
 	local staged="$sAdded$sDeleted$sModified$sRenamed"

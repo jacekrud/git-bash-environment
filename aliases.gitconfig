@@ -1,42 +1,39 @@
-[alias]
+[alias]	
+#general	
+	f = fetch origin
+	p = push
+	mt = mergetool
+	rpo = remote prune origin
+	edit-global-config = config --global --edit
+#reset 	
+	rh = reset --hard
+#cherry picking	
+	cp = cherry-pick
+	cpc = cherry-pick --continue
+	cpa = cherry-pick --abort
+#commiting	
+	cm = "!f() { commit -m \""$@"\";}; f"
+	cam = commit --amend
+	aa = add --all	
+#status	
+	s = status
+	ahead = !git --no-pager log --pretty=oneline @{u}..HEAD
+	behind = "!f() { echo -n \"You are: \"; git rev-list ..@{u} --count --pretty=oneline | tr -d \"\\n\"; echo \" commits behind\"; git log --pretty=oneline -10 ..@{u};}; f"
+#checking out	
+	ch = checkout
+	chm = checkout master
+#history graph	
+	graph-n = !sh -c \"git log -$1 --date=short --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset)%C(bold yellow)%d%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset) %C(bold green)(%ar) %C(reset)%C(bold cyan)%aD%C(reset)' $2 \" -
+	g = !sh -c \"git graph-n 10\" -
+#rebasing
+	r = rebase -p
+	rbc = rebase --continue
+	rba = rebase --abort
+	rebase-interactive = !sh -c \"git rebase -i HEAD~$1\" -
+	ri = !sh -c \"git rebase-interactive $1\" -
+#git Extensions
+	ex-commit = ext commit
+#silent build
 	sb = "!f() {  start cmd //c \"$(pwd)//Tools//Scripts//SilentBuild.bat\";}; f"
 	srb = "!f() { start cmd //c \"$(pwd)//Tools//Scripts//SilentRebuild.bat\";}; f"
 	sfb = "!f() { start cmd //c \"$(pwd)//Tools//Scripts//SilentFastBuild.bat\";}; f"
-	
-	p = push
-	f = fetch origin
-	s = status
-	cam = commit --amend
-	rh = reset --hard
-	rbc = rebase --continue
-	rba = rebase --abort
-	mt = mergetool
-	edit-global-config = config --global --edit
-	cpc = cherry-pick --continue
-	cpa = cherry-pick --abort
-	rpo = remote prune origin
-	
-	aa = add --all
-	cm = "!f() { commit -m \""$@"\";}; f"
-	
-	ahead = !git --no-pager log --pretty=oneline @{u}..HEAD
-	behind = "!f() { echo -n \"You are: \"; git rev-list ..@{u} --count --pretty=oneline | tr -d \"\\n\"; echo \" commits behind\"; git log --pretty=oneline -10 ..@{u};}; f"
-	
-	ch = checkout
-	chm = checkout master
-	
-	graph-n = !sh -c \"git log -$1 --date=short --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset)%C(bold yellow)%d%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset) %C(bold green)(%ar) %C(reset)%C(bold cyan)%aD%C(reset)' $2 \" -
-	g = !sh -c \"git graph-n 10\" -
-
-	commit-hash = !sh -c \"git rev-parse HEAD | cut -c0-7\"
-	rebase-interactive = '!sh -c \"git rebase -i HEAD~$1\" -'
-	r = rebase -p
-	rebase-interactive = !sh -c \"git rebase -i HEAD~$1\" -
-	ri = !sh -c \"git rebase-interactive $1\" -
-	
-	show-stage = diff --cached
-	show-working = diff
-	show-all = diff HEAD
-	
-	#Git Extensions
-	ex-commit = ext commit

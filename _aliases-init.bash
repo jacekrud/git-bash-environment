@@ -19,3 +19,4 @@ _git_not_merged_list ()
 {
     _git_branch
 }
+

@@ -17,7 +17,7 @@ function first_commit() {
 }
 
 function list_not_deleted_merged_remotes() { 
-	git branch -r | grep $1 | 
+	git branch -r --sort=authordate | grep $1 | 
 	while read -r branch; do 
 		notMergedCommitsCount=$(git rev-list --count master..$branch); 
 		if [ $notMergedCommitsCount = 0 ]; 

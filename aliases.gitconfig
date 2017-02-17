@@ -1,10 +1,13 @@
-[alias]	
+﻿[alias]	
 #general	
 	f = fetch origin
+	fr = "!f() { echo -e '\\033[1;40;32mFetching...\\033[0m'; git f; echo -e '\\033[1;40;33mRebasing...\\033[0m'; git rebase --quiet; echo -e '\\033[2;49;36mDone.\\033[0m';}; f"
 	p = push
 	mt = mergetool
 	rpo = remote prune origin
 	edit-global-config = config --global --edit
+	
+	itm = "!f() { echo ''; echo -en 'Imagine it.'; echo ''; echo -en '\\033[1A\\033[11C'; sleep 0.7; for i in "☑ " "☑ " "☑ "; do echo -ne ' '; echo -n "$i"; sleep 0.25; done; sleep 0.2; echo -e '\\033[6D\\033[2;49;36m Done.\\033[0m';}; f"
 #reset 	
 	rh = reset --hard
 #cherry picking	
@@ -13,7 +16,7 @@
 	cpa = cherry-pick --abort
 #commiting	
 	cm = "!f() { commit -m \""$@"\";}; f"
-	cam = commit --amend
+	cam = commit --amend	
 	aa = add --all	
 #status	
 	s = status

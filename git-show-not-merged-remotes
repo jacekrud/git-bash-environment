@@ -18,7 +18,7 @@ function first_commit() {
 
 function list_not_deleted_not_merged_remotes() { 
 	#trap 'break 2' INT
-	git branch -r --sort=authordate | grep $1 | 
+	git branch -r --sort=committerdate  | grep ${1:-''} | 
 	while read -r branch; do 
 		test $? -gt 0 && break 2;
 		notMergedCommitsCount=$(git rev-list --count master..$branch); 
@@ -49,4 +49,4 @@ function print_remotes(){
 	done; 
 }
 
-print_remotes team_alfa
+print_remotes $1

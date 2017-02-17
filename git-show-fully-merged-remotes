@@ -17,10 +17,13 @@ function first_commit() {
 }
 
 function list_not_deleted_merged_remotes() { 
-	git branch -r --sort=authordate | grep $1 | 
+	#trap 'break 2' INT
+	git branch -r --sort=authordate | grep ${1:-''} | 
 	while read -r branch; do 
+		test $? -gt 0 && break 2;
 		notMergedCommitsCount=$(git rev-list --count master..$branch); 
-		if [ $notMergedCommitsCount = 0 ]; 
+		test $? -gt 0 && break 2;
+		if [ $notMergedCommitsCount -eq 0 ]; 
 		then 
 			echo $branch; 
 		fi; 
@@ -29,18 +32,40 @@ function list_not_deleted_merged_remotes() {
 
 function print_merged_remotes(){
 	echo -ne '\033[1;36mFirst   Last    Merge   Date       Autor\033[14CRemote branch\033[0m \n'; 
+	trap 'exit' INT
 	list_not_deleted_merged_remotes $1 | 
 	while read -r remote; do 
+		test $? -gt 0 && break;
 		mergeCommitInfo=$(find_merge master $remote); 
-		masterMergeParent=$(cut -f1 -d ' ' <<< $mergeCommitInfo | format_short_sha1); 
-		lastCommit=$(cut -f2 -d ' ' <<< $mergeCommitInfo | format_short_sha1); 
-		mergeCommit=$(cut -f3 -d ' ' <<< $mergeCommitInfo | format_short_sha1); 
-		mergeCommitDate=$(cut -f4 -d ' ' <<< $mergeCommitInfo); 
+		test $? -gt 0 && break;
+		masterMergeParent=$(cut -f1 -d ' ' <<< $mergeCommitInfo); 
+		test $? -gt 0 && break;
+		lastCommit=$(cut -f2 -d ' ' <<< $mergeCommitInfo); 
+		test $? -gt 0 && break;
+		if [ ${#mergeCommitInfo} -eq 133 ]
+		then
+			mergeCommit=$(cut -f3 -d ' ' <<< $mergeCommitInfo | format_short_sha1); 
+			test $? -gt 0 && break;
+			mergeCommitDate=$(cut -f4 -d ' ' <<< $mergeCommitInfo); 
+		else
+			mergeCommit='-------'; 
+			test $? -gt 0 && break;
+			mergeCommitDate=$(cut -f3 -d ' ' <<< $mergeCommitInfo); 
+		fi
+		test $? -gt 0 && break;
 		firstCommitInfo=$(git log --format=format:'%h %an' $masterMergeParent..$lastCommit | tail -1); 
+		test $? -gt 0 && break;
+		masterMergeParent=$(format_short_sha1 <<< $masterMergeParent);
+		test $? -gt 0 && break;
+		lastCommit=$(format_short_sha1 <<< $lastCommit);
+		test $? -gt 0 && break;
 		firstCommit=$(cut -f1 -d ' ' <<< $firstCommitInfo | format_short_sha1); 
+		test $? -gt 0 && break;
 		firstCommitAuthor=$(cut -c 9- <<< $firstCommitInfo); 
+		test $? -gt 0 && break;
 		echo -ne $firstCommit $lastCommit $mergeCommit $mergeCommitDate'\033[1;31m' $firstCommitAuthor '\033[0m\r\033[53C' $remote '\n';  
+		test $? -gt 0 && break;
 	done; 
 }
 
-print_merged_remotes team_alfa
+print_merged_remotes $1

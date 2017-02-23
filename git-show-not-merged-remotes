@@ -21,6 +21,8 @@ function list_not_deleted_not_merged_remotes() {
 	git branch -r --sort=committerdate  | grep ${1:-''} | 
 	while read -r branch; do 
 		test $? -gt 0 && break 2;
+		branch=$(cut -f1 -d ' ' <<< $branch); 
+		test $? -gt 0 && break 2;
 		notMergedCommitsCount=$(git rev-list --count master..$branch); 
 		test $? -gt 0 && break 2;
 		if [ $notMergedCommitsCount -gt 0 ]; 

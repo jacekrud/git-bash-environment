@@ -21,6 +21,8 @@ function list_not_deleted_merged_remotes() {
 	git branch -r --sort=authordate | grep ${1:-''} | 
 	while read -r branch; do 
 		test $? -gt 0 && break 2;
+		branch=$(cut -f1 -d ' ' <<< $branch); 
+		test $? -gt 0 && break 2;
 		notMergedCommitsCount=$(git rev-list --count master..$branch); 
 		test $? -gt 0 && break 2;
 		if [ $notMergedCommitsCount -eq 0 ]; 
@@ -47,15 +49,12 @@ function print_merged_remotes(){
 			mergeCommit=$(cut -f3 -d ' ' <<< $mergeCommitInfo | format_short_sha1); 
 			test $? -gt 0 && break;
 			mergeCommitDate=$(cut -f4 -d ' ' <<< $mergeCommitInfo); 
-		else
-			mergeCommit='-------'; 
+			firstCommitInfo=$(git log --format=format:'%h %an' $masterMergeParent..$lastCommit | tail -1); 
 			test $? -gt 0 && break;
-			mergeCommitDate=$(cut -f3 -d ' ' <<< $mergeCommitInfo); 
+			masterMergeParent=$(format_short_sha1 <<< $masterMergeParent);
+		else
+			continue
 		fi
-		test $? -gt 0 && break;
-		firstCommitInfo=$(git log --format=format:'%h %an' $masterMergeParent..$lastCommit | tail -1); 
-		test $? -gt 0 && break;
-		masterMergeParent=$(format_short_sha1 <<< $masterMergeParent);
 		test $? -gt 0 && break;
 		lastCommit=$(format_short_sha1 <<< $lastCommit);
 		test $? -gt 0 && break;

@@ -8,14 +8,6 @@ function format_short_sha1() {
 	cat $1 | cut -c 1-7;
 }
 
-function branch_sha1() {
-	git rev-parse $1 | format_short_sha1;
-}
-	
-function first_commit() {
-	git log --oneline master..$1 | tail -1 | format_short_sha1;
-}
-
 function list_not_deleted_merged_remotes() { 
 	#trap 'break 2' INT
 	git branch -r --sort=authordate | grep ${1:-''} | 
@@ -23,7 +15,7 @@ function list_not_deleted_merged_remotes() {
 		test $? -gt 0 && break 2;
 		branch=$(cut -f1 -d ' ' <<< $branch); 
 		test $? -gt 0 && break 2;
-		notMergedCommitsCount=$(git rev-list --count master..$branch); 
+		notMergedCommitsCount=$(git rev-list --count origin/master..$branch); 
 		test $? -gt 0 && break 2;
 		if [ $notMergedCommitsCount -eq 0 ]; 
 		then 
@@ -38,7 +30,7 @@ function print_merged_remotes(){
 	list_not_deleted_merged_remotes $1 | 
 	while read -r remote; do 
 		test $? -gt 0 && break;
-		mergeCommitInfo=$(find_merge master $remote); 
+		mergeCommitInfo=$(find_merge origin/master $remote); 
 		test $? -gt 0 && break;
 		masterMergeParent=$(cut -f1 -d ' ' <<< $mergeCommitInfo); 
 		test $? -gt 0 && break;

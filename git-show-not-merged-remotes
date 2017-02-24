@@ -13,7 +13,7 @@ function branch_sha1() {
 }
 	
 function first_commit() {
-	git log --oneline master..$1 | tail -1 | format_short_sha1;
+	git log --oneline origin/master..$1 | tail -1 | format_short_sha1;
 }
 
 function list_not_deleted_not_merged_remotes() { 
@@ -23,7 +23,7 @@ function list_not_deleted_not_merged_remotes() {
 		test $? -gt 0 && break 2;
 		branch=$(cut -f1 -d ' ' <<< $branch); 
 		test $? -gt 0 && break 2;
-		notMergedCommitsCount=$(git rev-list --count master..$branch); 
+		notMergedCommitsCount=$(git rev-list --count origin/master..$branch); 
 		test $? -gt 0 && break 2;
 		if [ $notMergedCommitsCount -gt 0 ]; 
 		then 

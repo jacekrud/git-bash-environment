@@ -1,11 +1,4 @@
-0) Close console
-1) Add current folder to PATH variable:
-	
-	On Windows:
-			Edit PATH manually
-		OR
-			!!! CAUTION: SETX command may break your PATH variable, be careful, make backup
-			open cmd as administrator
-			execute command: SETX /M path "%path%;%cd%\
-2) Restart or open console			
-3) Run install.bash which will update .bashrc
+0) Clone this repo
+1) Add repo folder to PATH variable
+2) Restart console			
+3) Run install.bash which will update .bashrc and .gitconfig

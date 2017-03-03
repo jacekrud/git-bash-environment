@@ -1,8 +1,8 @@
-Features:
+Features:  
   -allow easier aliases management  
   -change prompt to meaningful  
 
-Prerequisites:
+Prerequisites:  
   -git  
   -bash version: >4.3  
 

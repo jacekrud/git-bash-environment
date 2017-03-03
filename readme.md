@@ -1,10 +1,10 @@
 Features:
-  -allow easier aliases management 
-  -change prompt to meaningful
+  -allow easier aliases management  
+  -change prompt to meaningful  
 
 Prerequisites:
-  -git 
-  -bash version: >4.3
+  -git  
+  -bash version: >4.3  
 
 Instalation:
   1. Clone this repo

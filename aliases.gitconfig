@@ -3,6 +3,7 @@
 	f = fetch origin
 	fr = "!f() { echo -e '\\033[1;40;32mFetching...\\033[0m'; git f; echo -e '\\033[1;40;33mRebasing...\\033[0m'; git rebase --quiet; echo -e '\\033[2;49;36mDone.\\033[0m';}; f"
 	p = push
+	pf = push --force
 	mt = mergetool
 	rpo = remote prune origin
 	edit-global-config = config --global --edit
@@ -17,14 +18,16 @@
 #commiting	
 	cm = "!f() { commit -m \""$@"\";}; f"
 	cam = commit --amend	
+	caam = "!f() { git aa; git cam;}; f"
 	aa = add --all	
 #status	
 	s = status
 	ahead = !git --no-pager log --pretty=oneline @{u}..HEAD
-	behind = "!f() { echo -n \"You are: \"; git rev-list ..@{u} --count --pretty=oneline | tr -d \"\\n\"; echo \" commits behind\"; git log --pretty=oneline -10 ..@{u};}; f"
+	behind = "!f() { echo -n \"You are: \"; git rev-list ..@{u} --count --pretty=oneline | tr -d \"\\n\"; echo \" commits behind\"; git log --pretty=oneline --format=format:'%C(bold blue)%h%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset) %C(bold green)(%ar) %C(reset)%C(bold cyan)%aD%C(reset)' -10 ..@{u};}; f"
 #checking out	
-	ch = checkout
+	c = checkout
 	chm = checkout master
+	chd = checkout dev
 #history graph	
 	graph-n = !sh -c \"git log -$1 --date=short --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset)%C(bold yellow)%d%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset) %C(bold green)(%ar) %C(reset)%C(bold cyan)%aD%C(reset)' $2 \" -
 	g = !sh -c \"git graph-n 10\" -

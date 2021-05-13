@@ -1,4 +1,6 @@
 #!/bin/sh
+LANG=en_US.UTF-8
+LC_CTYPE=en_US.utf8
 
 echo 'Add g as git alias'
 alias g='git'

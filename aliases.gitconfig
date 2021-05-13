@@ -1,4 +1,4 @@
-﻿[alias]	
+[alias]	
 #general	
 	f = fetch origin
 	fr = "!f() { echo -e '\\033[1;40;32mFetching...\\033[0m'; git f; echo -e '\\033[1;40;33mRebasing...\\033[0m'; git rebase --quiet; echo -e '\\033[2;49;36mDone.\\033[0m';}; f"

@@ -1,19 +1,21 @@
 #!/bin/sh
-
+LANG=en_US.UTF-8
+LC_CTYPE=en_US.utf8
+export LC_ALL=en_GB.UTF-8
 
 echo 'Initializing custom prompt'
 
 
-COLOR_RED="\033[0;31m"
-COLOR_RED="\033[0;31m"
-COLOR_YELLOW="\033[1;33m"
-COLOR_GREEN="\033[0;32m"
-COLOR_OCHRE="\033[38;5;95m"
-COLOR_BLUE="\033[0;34m"
-COLOR_WHITE="\033[0;37m"
-COLOR_RESET="\033[0m"
-COLOR_DARKGREY="\033[1;100;30m"
-COLOR_DARKGREEN="\033[2;49;32m"
+COLOR_RED="\e[0;31m"
+COLOR_RED="\e[0;31m"
+COLOR_YELLOW="\e[1;33m"
+COLOR_GREEN="\e[0;32m"
+COLOR_OCHRE="\e[38;5;95m"
+COLOR_BLUE="\e[0;34m"
+COLOR_WHITE="\e[0;37m"
+COLOR_RESET="\e[0m"
+COLOR_DARKGREY="\e[1;30m"
+COLOR_DARKGREEN="\e[2;32m"
 
 function countFilesStatuses {
 	sAdded=0
@@ -92,5 +94,5 @@ function git_colored_status {
   
 }
 
-export PS1="\r\n\[\033[1;40;30m[\t]\[\033[0m\] \[$COLOR_YELLOW\]\\w\$(git_colored_status) $(echo -e "\n$") "
+export PS1="\r\n\[\033[1;40;30m[\t]$COLOR_RESET $COLOR_YELLOW\\w\$(git_colored_status) $(echo -e "\n$") "
 export PROMPT_COMMAND='history -a'

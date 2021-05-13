@@ -1,4 +1,4 @@
-#!/bin/sh
+﻿#!/bin/sh
 
 function find_merge(){
 	git log --date=short --pretty='%P %H %cd'  $1 ^$2 --ancestry_path | tail -1

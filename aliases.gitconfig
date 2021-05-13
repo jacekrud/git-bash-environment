@@ -19,6 +19,7 @@
 	cm = "!f() { commit -m \""$@"\";}; f"
 	cam = commit --amend	
 	caam = "!f() { git aa; git cam;}; f"
+  caampf = "!f() { git aa; git commit --amend --quiet; git pf;}; f"
 	aa = add --all	
 #status	
 	s = status

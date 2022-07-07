@@ -1,46 +1,51 @@
-[alias]	
-#general	
-	f = fetch origin
-	fr = "!f() { echo -e '\\033[1;40;32mFetching...\\033[0m'; git f; echo -e '\\033[1;40;33mRebasing...\\033[0m'; git rebase --quiet; echo -e '\\033[2;49;36mDone.\\033[0m';}; f"
-	p = push
-	pf = push --force
-	mt = mergetool
-	rpo = remote prune origin
-	edit-global-config = config --global --edit
-	
-	itm = "!f() { echo ''; echo -en 'Imagine it.'; echo ''; echo -en '\\033[1A\\033[11C'; sleep 0.7; for i in "☑ " "☑ " "☑ "; do echo -ne ' '; echo -n "$i"; sleep 0.25; done; sleep 0.2; echo -e '\\033[6D\\033[2;49;36m Done.\\033[0m';}; f"
-#reset 	
-	rh = reset --hard
-#cherry picking	
-	cp = cherry-pick
-	cpc = cherry-pick --continue
-	cpa = cherry-pick --abort
-#commiting	
-	cm = "!f() { commit -m \""$@"\";}; f"
-	cam = commit --amend	
-	caam = "!f() { git aa; git cam;}; f"
-  caampf = "!f() { git aa; git commit --amend --quiet; git pf;}; f"
-	aa = add --all	
-#status	
-	s = status
-	ahead = !git --no-pager log --pretty=oneline @{u}..HEAD
-	behind = "!f() { echo -n \"You are: \"; git rev-list ..@{u} --count --pretty=oneline | tr -d \"\\n\"; echo \" commits behind\"; git log --pretty=oneline --format=format:'%C(bold blue)%h%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset) %C(bold green)(%ar) %C(reset)%C(bold cyan)%aD%C(reset)' -10 ..@{u};}; f"
-#checking out	
-	c = checkout
-	chm = checkout master
-	chd = checkout dev
-#history graph	
-	graph-n = !sh -c \"git log -$1 --date=short --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset)%C(bold yellow)%d%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset) %C(bold green)(%ar) %C(reset)%C(bold cyan)%aD%C(reset)' $2 \" -
-	g = !sh -c \"git graph-n 10\" -
+[alias]  
+#general  
+  f = fetch origin
+  fr = "!f() { echo -e '\\033[1;40;32mFetching...\\033[0m'; git f; echo -e '\\033[1;40;33mRebasing...\\033[0m'; git rebase --quiet; echo -e '\\033[2;49;36mDone.\\033[0m';}; f"
+  p = push
+  pf = push --force
+  mt = mergetool
+  rpo = remote prune origin
+  edit-global-config = config --global --edit
+  pushnew = "!f() { branchName=$(git branch --show); git push -u origin $branchName;}; f"
+  
+  itm = "!f() { echo ''; echo -en 'Imagine it.'; echo ''; echo -en '\\033[1A\\033[11C'; sleep 0.7; for i in "☑ " "☑ " "☑ "; do echo -ne ' '; echo -n "$i"; sleep 0.25; done; sleep 0.2; echo -e '\\033[6D\\033[2;49;36m Done.\\033[0m';}; f"
+#reset   
+  rh = reset --hard
+  rho = "!f() { branchName=$(git branch --show); git rh origin/$branchName;}; f"
+#cherry picking  
+  cp = cherry-pick
+  cpc = cherry-pick --continue
+  cpa = cherry-pick --abort
+#commiting  
+  cm = "!f() { git commit -m \""$@"\";}; f"
+  aacm = "!f() { git aa; git cm \""$@"\";}; f"
+  cam = commit --amend  
+  caam = "!f() { git aa; git cam;}; f"
+  caampf = "!f() { git aa; git commit --amend --no-edit; git pf;}; f"
+  aa = add --all  
+#status  
+  s = status
+  ahead = !git --no-pager log --pretty=oneline @{u}..HEAD
+  behind = "!f() { echo -n \"You are: \"; git rev-list ..@{u} --count --pretty=oneline | tr -d \"\\n\"; echo \" commits behind\"; git log --pretty=oneline --format=format:'%C(bold blue)%h%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset) %C(bold green)(%ar) %C(reset)%C(bold cyan)%aD%C(reset)' -10 ..@{u};}; f"
+#checking out  
+  c = checkout
+  chm = checkout master
+  chd = checkout dev
+  chde = checkout develop
+#history graph  
+  graph-n = !sh -c \"git log -$1 --date=short --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset)%C(bold yellow)%d%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset) %C(bold green)(%ar) %C(reset)%C(bold cyan)%aD%C(reset)' $2 \" -
+  g = !sh -c \"git graph-n 10\" -
 #rebasing
-	r = rebase -p
-	rbc = rebase --continue
-	rba = rebase --abort
-	rebase-interactive = !sh -c \"git rebase -i HEAD~$1\" -
-	ri = !sh -c \"git rebase-interactive $1\" -
+  r = rebase --rebase-merges
+  ro = "!f() { branchName=$(git branch --show); git r origin/$branchName;}; f"
+  rbc = rebase --continue
+  rba = rebase --abort
+  rebase-interactive = !sh -c \"git rebase -i HEAD~$1\" -
+  ri = !sh -c \"git rebase-interactive $1\" -
 #git Extensions
-	ex-commit = ext commit
+  ex-commit = ext commit
 #silent build
-	sb = "!f() {  start cmd //c \"$(pwd)//Tools//Scripts//SilentBuild.bat\";}; f"
-	srb = "!f() { start cmd //c \"$(pwd)//Tools//Scripts//SilentRebuild.bat\";}; f"
-	sfb = "!f() { start cmd //c \"$(pwd)//Tools//Scripts//SilentFastBuild.bat\";}; f"
+  sb = "!f() {  start cmd //c \"$(pwd)//Tools//Scripts//SilentBuild.bat\";}; f"
+  srb = "!f() { start cmd //c \"$(pwd)//Tools//Scripts//SilentRebuild.bat\";}; f"
+  sfb = "!f() { start cmd //c \"$(pwd)//Tools//Scripts//SilentFastBuild.bat\";}; f"
